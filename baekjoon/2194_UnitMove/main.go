@@ -13,6 +13,61 @@ type pair struct {
 	depth int
 }
 
+type queue struct {
+	Head *node
+	Tail *node
+
+	Empty int
+}
+
+type node struct {
+	Item *pair
+	next *node
+}
+
+func NewQueue() *queue {
+	return new(queue)
+}
+
+func (q *queue) front() *pair {
+	if q.Empty == 0 {
+		return nil
+	}
+	return q.Head.Item
+}
+
+func (q *queue) push(item *pair) {
+
+	if q.Empty == 0 {
+		q.Head = &node{item, nil}
+		q.Tail = q.Head
+		q.Empty++
+		return
+	}
+
+	q.Tail.next = &node{item, nil}
+	q.Empty++
+	return
+}
+
+func (q *queue) pop() {
+	if q.Empty == 0 {
+		return
+	}
+
+	q.Head = q.Head.next
+	q.Empty--
+
+	return
+}
+
+func (q *queue) empty() bool {
+	if q.Empty == 0 {
+		return true
+	}
+	return false
+}
+
 var (
 	N int
 	M int
@@ -26,10 +81,6 @@ var (
 	start pair
 	end   pair
 
-	q      [30000]pair
-	qHead  int
-	qTail  int
-	qEmpty int
 	Map    [501][501]int
 	NewMap [501][501]int
 	visit  [501][501]bool
@@ -87,15 +138,14 @@ func main() {
 }
 
 func bfs() int {
-	q[qTail] = start
-	qTail++
-	qEmpty++
+	q := NewQueue()
+	q.push(&start)
 	visit[start.x][start.y] = true
 
-	for qEmpty > 0 {
-		front := q[qHead]
-		qEmpty--
-		qHead++
+	for !q.empty() {
+		front := q.front()
+		q.pop()
+		//fmt.Println(front.x, " ", front.y, " ", front.depth)
 
 		for i := 0; i < 4; i++ {
 			for j := 0; j < 4; j++ {
@@ -109,9 +159,7 @@ func bfs() int {
 				}
 
 				if NewMap[nx][ny] == 0 {
-					q[qTail] = pair{nx, ny, front.depth + 1}
-					qTail++
-					qEmpty++
+					q.push(&pair{nx, ny, front.depth + 1})
 					visit[nx][ny] = true
 				}
 			}
