@@ -1,4 +1,4 @@
-package leetcode
+package easy
 
 func runningSum(nums []int) []int {
 
