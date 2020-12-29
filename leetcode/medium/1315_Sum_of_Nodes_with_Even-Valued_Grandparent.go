@@ -35,7 +35,6 @@ func SerchTreePreOrder(node *TreeNode) {
 
 		for _, n := range childChild {
 			if n != nil {
-				fmt.Printf("Node: %d\n", n.Val)
 				ret += n.Val
 			}
 		}
