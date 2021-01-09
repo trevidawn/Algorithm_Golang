@@ -3,37 +3,22 @@ package medium
 import "sort"
 
 func topKFrequent(nums []int, k int) []int {
-	var frequency map[int]int
-	frequency = map[int]int{}
-
+	var (
+		frequency = make(map[int]int)
+		keys      []int
+	)
 
 	for _, num := range nums {
-		if _, ok := frequency[num]; !ok {
-			frequency[num] = 1
-		} else {
-			frequency[num] = frequency[num] + 1
-		}
+		frequency[num]++
 	}
 
-	var t []temp
-
-	for i, v := range frequency {
-		t = append(t, temp{i, v})
+	for key := range frequency {
+		keys = append(keys, key)
 	}
 
-	sort.Slice(t, func(i, j int) bool {
-		return t[i].value > t[j].value
+	sort.Slice(keys, func(i, j int) bool {
+		return frequency[keys[i]] > frequency[keys[j]]
 	})
 
-	var ret []int
-	for i := 0; i < k; i++ {
-		ret = append(ret, t[i].index)
-	}
-
-	return ret
-}
-
-type temp struct {
-	index int
-	value int
+	return keys[:k]
 }
