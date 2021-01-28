@@ -1,5 +1,11 @@
 package medium
 
+/*
+	Runtime: 4 ms, faster than 16.51% of Go online submissions for Binary Tree Level Order Traversal.
+	Memory Usage: 2.9 MB, less than 31.86% of Go online submissions for Binary Tree Level Order Traversal.
+	Bottom-Up 방식이나, 코드 최적화하면 시간 더 단축 될 듯?
+ */
+
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
